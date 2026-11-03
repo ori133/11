@@ -1,9 +1,15 @@
 import { Search } from 'lucide-react'
 import { Button, IconButton } from '../ui/Button'
 
-const links = ['Why Sparkline', 'Product', 'Solutions', 'Resources', 'About']
+const defaultLinks = [
+  'Why Sparkline',
+  'Product',
+  'Solutions',
+  'Resources',
+  'About',
+]
 
-export function Logo() {
+export function Logo({ name = 'Sparkline' }: { name?: string }) {
   return (
     <a
       href="/"
@@ -19,20 +25,28 @@ export function Logo() {
           strokeLinejoin="round"
         />
       </svg>
-      Sparkline
+      {name}
     </a>
   )
 }
 
 /** Floating white pill navigation. */
-export function Navbar() {
+export function Navbar({
+  brand = 'Sparkline',
+  links = defaultLinks,
+  cta = 'Try Sparkline',
+}: {
+  brand?: string
+  links?: string[]
+  cta?: string
+}) {
   return (
     <header className="relative z-10 flex justify-center px-4 pt-6">
       <nav
         aria-label="Main"
         className="flex w-full max-w-[640px] items-center justify-between gap-4 rounded-[var(--radius-lg)] bg-[var(--bg-elevated)] py-2 pl-5 pr-2 shadow-[var(--shadow-sm)] border border-[var(--border-subtle)] lg:max-w-[820px]"
       >
-        <Logo />
+        <Logo name={brand} />
         <ul className="hidden items-center gap-5 text-[length:var(--text-caption)] font-medium lg:flex">
           {links.map((l) => (
             <li key={l}>
@@ -55,7 +69,7 @@ export function Navbar() {
             </span>
           </IconButton>
           <Button variant="dark" size="sm">
-            Try Sparkline
+            {cta}
           </Button>
         </div>
       </nav>

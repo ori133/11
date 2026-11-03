@@ -9,7 +9,7 @@ import {
   NodesGlyph,
 } from '../signature/IsoTile'
 
-export function Hero() {
+export function HeroAnalytics() {
   return (
     <section className="relative px-6 pb-[340px] pt-20 text-center sm:pt-24">
       <h1 className="mx-auto max-w-[780px] text-[clamp(2.5rem,7vw,var(--text-display))] font-bold leading-[1.05] tracking-[-0.02em]">
