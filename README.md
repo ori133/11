@@ -1,5 +1,7 @@
 # אתר תדמית – Next.js + Tailwind CSS
 
+העיצוב מבוסס על design system בשם **Brightside**. ראו [`DESIGN_SYSTEM.md`](./DESIGN_SYSTEM.md).
+
 ```bash
 npm install
 npm run dev     # http://localhost:3000
