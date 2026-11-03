@@ -14,3 +14,23 @@ export const NodesGlyph = (
     <circle cx="24" cy="48" r="7" />
   </g>
 );
+
+/* Event glyphs */
+export const TentGlyph = <path d="M4 52 32 10l28 42H44L32 30 20 52z" />;
+
+export const PoufGlyph = <path d="M32 8c14 0 24 14 24 30 0 10-10 16-24 16S8 48 8 38C8 22 18 8 32 8z" />;
+
+export const FlowerGlyph = (
+  <g>
+    <circle cx="32" cy="14" r="10" />
+    <circle cx="49" cy="26" r="10" />
+    <circle cx="43" cy="46" r="10" />
+    <circle cx="21" cy="46" r="10" />
+    <circle cx="15" cy="26" r="10" />
+    <circle cx="32" cy="32" r="7" />
+  </g>
+);
+
+export const BulbGlyph = (
+  <path d="M32 4C20 4 12 13 12 24c0 8 4 13 8 18v8h24v-8c4-5 8-10 8-18C52 13 44 4 32 4zM22 54h20v6H22z" />
+);

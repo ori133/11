@@ -66,7 +66,7 @@ Pill קטן ל-eyebrow מעל כותרת. `dot` מוסיף נקודה ורודה
 | Prop | ערכים |
 |---|---|
 | `tone` | `pink`, `yellow`, `blue` |
-| `children` | סמל מ-`glyphs.tsx`: `PenGlyph`, `CodeGlyph`, `StarGlyph`, `NodesGlyph` |
+| `children` | סמל מ-`glyphs.tsx`: `PenGlyph`, `CodeGlyph`, `StarGlyph`, `NodesGlyph`, ולאירועים: `TentGlyph`, `PoufGlyph`, `FlowerGlyph`, `BulbGlyph` |
 | `size` | פיקסלים (ברירת מחדל 240) |
 | `float` / `delay` | ציפה ועיכוב בשניות, כדי שאריחים לא יזוזו יחד |
 | `className` | מיקום (`absolute ...`) |
@@ -79,13 +79,26 @@ Pill קטן ל-eyebrow מעל כותרת. `dot` מוסיף נקודה ורודה
 ## סקשנים (patterns)
 
 ### `HeroAgency`: `src/components/sections/HeroAgency.tsx`
-Hero ממורכז, לפי הסדר: `Badge` → `h1` עם `Highlight` → subtitle → שני CTA (`accent` + `ghost`) → `SocialProof` → אריחים בתחתית. כל התוכן ב-props: `eyebrow`, `titleStart`, `highlight`, `titleEnd`, `subtitle`, `primaryCta`, `secondaryCta`, `clients`, `rating`.
+Hero ממורכז, לפי הסדר: `Badge` → `h1` עם `Highlight` → subtitle → שני CTA (`accent` + `ghost`) → `SocialProof` → אריחים בתחתית. כל התוכן ב-props: `eyebrow`, `titleStart`, `highlight`, `titleEnd`, `subtitle`, `primaryCta`, `secondaryCta`, `clients`, `clientsHeading`, `rating` (אופציונלי: מציגים רק דירוג אמיתי), `tiles` (ארבעה אריחים: `{ tone, glyph }`).
 
 ### `SocialProof`: `src/components/sections/SocialProof.tsx`
-דירוג כוכבים ולצידו רשימת לקוחות. Props: `clients`, `score`, `label`.
+רשימת לקוחות, ולפניה דירוג כוכבים (`score` + `label`) או טקסט (`heading`). אין להציג דירוג שלא קיים באמת.
 
 ### `Services`: `src/components/sections/Services.tsx`
 גריד כרטיסים: `Badge` מעל כותרת, כרטיסים לבנים עם `rounded-2xl`, `shadow-soft` ו-`hover:shadow-tile`, אייקון Lucide בעיגול לבן בצבע `accent-blue`, וקישור "לפרטים" בצבע `accent-blue`. כרטיס `featured` מקבל רקע `brand-50`. זה הדפוס לכל גריד כרטיסים חדש.
+
+### סקשנים נוספים: `src/components/sections/`
+- `PageHeader`: פתיח לעמוד פנימי (`Badge`, `h1` ופסקת הסבר) על gradient של `brand-50`.
+- `Gallery`: גריד תמונות 4:3 עם כיתוב על התמונה. Props: `items` (`{ photo, caption }`), `eyebrow`, `title`, `text`.
+- `Testimonials`: כרטיסי המלצה. `limit` מציג את הראשונות עם קישור "לכל ההמלצות".
+- `Features`: כרטיסי יתרונות עם אייקון Lucide. Props: `title`, `items`.
+- `BigBagCallout`: באנר מותג עם תמונה בצד. מבנה לשימוש חוזר לכל קריאה למותג/מוצר.
+- `CTA`: פס קריאה לפעולה על `brand-600`, עם כפתור הצעת מחיר ומספרי טלפון.
+
+## תוכן ותמונות
+- שם האתר, ניווט, פרטי קשר וקישורים חיצוניים: `src/lib/site.ts`.
+- טקסטים לסקשנים, המלצות ורשימות תמונות (עם alt): `src/lib/content.ts`. סקשנים נשארים תצוגתיים בלבד.
+- תמונות: `public/images`, מוצגות עם `next/image`.
 
 ## RTL ונגישות
 - להעדיף logical properties: `ms-*`, `ps-*`, `start-*`, `text-start`. חצים כיווניים מקבלים `rtl:rotate-180`.

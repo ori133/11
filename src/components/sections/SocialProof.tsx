@@ -30,14 +30,22 @@ export default function SocialProof({
   clients,
   score,
   label,
+  heading,
 }: {
   clients: string[];
-  score: number;
-  label: string;
+  /** Star rating; omit it when there is no real rating to show. */
+  score?: number;
+  label?: string;
+  /** Text shown instead of the rating, e.g. "עובדים איתנו". */
+  heading?: string;
 }) {
   return (
     <div className="flex flex-col items-center gap-4 sm:flex-row sm:gap-8">
-      <Rating score={score} label={label} />
+      {score !== undefined && label ? (
+        <Rating score={score} label={label} />
+      ) : (
+        heading && <span className="text-[13px] font-medium text-slate-600">{heading}</span>
+      )}
       <span aria-hidden className="hidden h-5 w-px bg-slate-200 sm:block" />
       <LogoCloud names={clients} />
     </div>

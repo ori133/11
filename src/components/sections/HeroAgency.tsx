@@ -2,9 +2,11 @@ import Badge from "@/components/ui/Badge";
 import Button from "@/components/ui/Button";
 import Container from "@/components/ui/Container";
 import Highlight from "@/components/ui/Highlight";
-import IsoTile from "@/components/ui/IsoTile";
+import IsoTile, { type GlyphTone } from "@/components/ui/IsoTile";
 import { CodeGlyph, NodesGlyph, PenGlyph, StarGlyph } from "@/components/ui/glyphs";
 import SocialProof from "./SocialProof";
+
+type TileSpec = { tone: GlyphTone; glyph: React.ReactNode };
 
 export type HeroAgencyProps = {
   eyebrow?: string;
@@ -16,10 +18,30 @@ export type HeroAgencyProps = {
   primaryCta?: { label: string; href: string };
   secondaryCta?: { label: string; href: string };
   clients?: string[];
+  /** Shown before the client names when there is no star rating. */
+  clientsHeading?: string;
+  /** Star rating; leave undefined when there is no real rating. */
   rating?: { score: number; label: string };
+  /** Exactly four decorative tiles, ordered: outer-start, inner-start, inner-end, outer-end. */
+  tiles?: [TileSpec, TileSpec, TileSpec, TileSpec];
 };
 
-// Placeholder copy; replace with real content.
+const defaultTiles: [TileSpec, TileSpec, TileSpec, TileSpec] = [
+  { tone: "pink", glyph: PenGlyph },
+  { tone: "blue", glyph: CodeGlyph },
+  { tone: "yellow", glyph: StarGlyph },
+  { tone: "pink", glyph: NodesGlyph },
+];
+
+// Tile positions; symmetric, so physical left/right is fine in RTL.
+const tilePositions = [
+  "left-[-6%] top-[34%] sm:left-[4%] sm:top-[26%]",
+  "left-[18%] top-[56%] hidden sm:block",
+  "right-[18%] top-[52%] hidden sm:block",
+  "right-[-6%] top-[30%] sm:right-[4%] sm:top-[22%]",
+];
+
+// Placeholder copy; pass real content via props.
 export default function HeroAgency({
   eyebrow = "פנויים לפרויקטים חדשים ברבעון הקרוב",
   titleStart = "אנחנו בונים אתרים שגורמים לעסק שלכם",
@@ -29,7 +51,9 @@ export default function HeroAgency({
   primaryCta = { label: "בואו נדבר", href: "/contact" },
   secondaryCta = { label: "עוד עלינו", href: "/about" },
   clients = ["Northwind", "Acme Co", "Lumen", "Paperplane", "Orbit"],
-  rating = { score: 4.9, label: "מתוך 120 לקוחות" },
+  clientsHeading,
+  rating,
+  tiles = defaultTiles,
 }: HeroAgencyProps) {
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-brand-50 to-white pb-[300px] pt-16 text-center sm:pb-[320px] sm:pt-24">
@@ -59,28 +83,25 @@ export default function HeroAgency({
         </div>
 
         <div className="mt-12">
-          <SocialProof clients={clients} score={rating.score} label={rating.label} />
+          <SocialProof
+            clients={clients}
+            heading={clientsHeading}
+            score={rating?.score}
+            label={rating?.label}
+          />
         </div>
       </Container>
 
-      {/* Decorative service tiles, fading out toward the edges.
-          Positions are symmetric, so physical left/right is fine in RTL. */}
+      {/* Decorative tiles, fading out toward the edges. */}
       <div
         aria-hidden
         className="pointer-events-none absolute inset-x-0 bottom-0 h-[300px] overflow-hidden [mask-image:radial-gradient(ellipse_70%_90%_at_50%_70%,#000_40%,transparent_100%)]"
       >
-        <IsoTile tone="pink" size={220} delay={0} className="absolute left-[-6%] top-[34%] sm:left-[4%] sm:top-[26%]">
-          {PenGlyph}
-        </IsoTile>
-        <IsoTile tone="blue" size={220} delay={1} className="absolute left-[18%] top-[56%] hidden sm:block">
-          {CodeGlyph}
-        </IsoTile>
-        <IsoTile tone="yellow" size={220} delay={2} className="absolute right-[18%] top-[52%] hidden sm:block">
-          {StarGlyph}
-        </IsoTile>
-        <IsoTile tone="pink" size={220} delay={3} className="absolute right-[-6%] top-[30%] sm:right-[4%] sm:top-[22%]">
-          {NodesGlyph}
-        </IsoTile>
+        {tiles.map((t, i) => (
+          <IsoTile key={i} tone={t.tone} size={220} delay={i} className={`absolute ${tilePositions[i]}`}>
+            {t.glyph}
+          </IsoTile>
+        ))}
       </div>
     </section>
   );
