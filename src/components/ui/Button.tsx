@@ -1,85 +1,51 @@
-import { ArrowRight } from 'lucide-react'
-import clsx from 'clsx'
-import type { ButtonHTMLAttributes, ReactNode } from 'react'
+import Link from "next/link";
+import { ArrowRight } from "lucide-react";
+import { cn } from "@/lib/cn";
 
-type Variant = 'primary' | 'dark' | 'ghost'
-type Size = 'sm' | 'md' | 'lg'
+type Variant = "primary" | "secondary" | "accent" | "ghost";
 
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: Variant
-  size?: Size
-  /** Show the circled arrow used by the hero CTA. */
-  withArrow?: boolean
-  children: ReactNode
-}
+const styles: Record<Variant, string> = {
+  primary: "bg-brand-600 text-white hover:bg-brand-700",
+  secondary: "border border-slate-300 text-slate-900 hover:bg-slate-50",
+  accent: "bg-accent-blue text-white hover:bg-accent-blue-hover",
+  ghost: "text-slate-900 hover:bg-slate-100",
+};
 
-const variants: Record<Variant, string> = {
-  primary:
-    'bg-[var(--action-primary)] text-white hover:bg-[var(--action-primary-hover)] active:bg-[var(--action-primary-active)]',
-  dark: 'bg-[var(--action-dark)] text-[var(--text-inverse)] hover:bg-[var(--action-dark-hover)]',
-  ghost:
-    'bg-transparent text-[var(--text-primary)] hover:bg-[var(--bg-surface)]',
-}
+const base =
+  "group inline-flex items-center justify-center gap-2 rounded-lg px-5 py-2.5 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-600";
 
-const sizes: Record<Size, string> = {
-  sm: 'h-9 px-3.5 text-[length:var(--text-label)] rounded-[var(--radius-md)]',
-  md: 'h-11 px-5 text-[length:var(--text-body-s)] rounded-[var(--radius-sm)]',
-  lg: 'h-12 px-6 text-[length:var(--text-body-m)] rounded-[var(--radius-sm)]',
-}
+type Props = { variant?: Variant; className?: string; withArrow?: boolean } & (
+  | ({ href: string } & Omit<React.ComponentProps<typeof Link>, "className">)
+  | ({ href?: undefined } & React.ComponentProps<"button">)
+);
 
-export function Button({
-  variant = 'primary',
-  size = 'md',
-  withArrow = false,
-  className,
-  children,
-  ...rest
-}: ButtonProps) {
-  return (
-    <button
-      className={clsx(
-        'group inline-flex items-center justify-center gap-2 font-medium',
-        'cursor-pointer transition-colors duration-[var(--duration-base)]',
-        'disabled:cursor-not-allowed disabled:opacity-50',
-        variants[variant],
-        sizes[size],
-        className,
-      )}
-      {...rest}
-    >
+export default function Button({ variant = "primary", className, withArrow = false, children, ...props }: Props) {
+  const classes = cn(base, styles[variant], className);
+  const content = (
+    <>
       {children}
       {withArrow && (
         <span className="grid size-5 place-items-center rounded-full border border-current">
+          {/* flips in RTL so the arrow always points "forward" */}
           <ArrowRight
             size={12}
             aria-hidden
-            className="transition-transform duration-[var(--duration-base)] group-hover:translate-x-0.5"
+            className="transition-transform group-hover:translate-x-0.5 rtl:rotate-180 rtl:group-hover:-translate-x-0.5"
           />
         </span>
       )}
-    </button>
-  )
-}
-
-export interface IconButtonProps
-  extends ButtonHTMLAttributes<HTMLButtonElement> {
-  /** Required: icon-only buttons need an accessible name. */
-  'aria-label': string
-  children: ReactNode
-}
-
-export function IconButton({ className, children, ...rest }: IconButtonProps) {
+    </>
+  );
+  if (props.href !== undefined) {
+    return (
+      <Link className={classes} {...(props as React.ComponentProps<typeof Link>)}>
+        {content}
+      </Link>
+    );
+  }
   return (
-    <button
-      className={clsx(
-        'grid size-10 place-items-center rounded-full cursor-pointer',
-        'bg-[var(--bg-elevated)] border border-[var(--border-subtle)] shadow-[var(--shadow-sm)]',
-        'transition-shadow duration-[var(--duration-base)] hover:shadow-[var(--shadow-md)]',
-        className,
-      )}
-      {...rest}
-    >
-      {children}
+    <button className={classes} {...(props as React.ComponentProps<"button">)}>
+      {content}
     </button>
-  )
+  );
 }
