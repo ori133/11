@@ -1,0 +1,124 @@
+/*
+ * Design tokens — single source of truth.
+ * Layer 1: primitives (raw values)  → defined in @theme
+ * Layer 2: semantic (roles)         → CSS variables under :root, overridden for dark
+ * Values are sampled from the Sparkline reference and should be verified.
+ */
+
+@theme {
+  /* ---- Primitives: color ---- */
+  --color-ink: #0b0b0c;
+  --color-paper: #ffffff;
+
+  --color-gray-50: #f7f7f8;
+  --color-gray-100: #efeff1;
+  --color-gray-200: #e4e4e8;
+  --color-gray-300: #d9d9de;
+  --color-gray-400: #a1a1aa;
+  --color-gray-500: #71717a;
+  --color-gray-600: #52525b;
+  --color-gray-900: #18181b;
+
+  --color-blue-50: #eaf2ff;
+  --color-blue-300: #8bb7ff;
+  --color-blue-500: #1f6ff2;
+  --color-blue-600: #1559d1;
+  --color-blue-700: #1046a8;
+
+  --color-pink-300: #ff9cc0;
+  --color-pink-500: #ff3d86;
+  --color-pink-600: #e02a72;
+
+  --color-yellow-300: #ffe08a;
+  --color-yellow-500: #ffc93c;
+  --color-yellow-600: #e6ad14;
+
+  /* ---- Primitives: type ---- */
+  --font-sans: 'Outfit', ui-sans-serif, system-ui, -apple-system, 'Segoe UI',
+    Arial, sans-serif;
+
+  --text-caption: 0.75rem;
+  --text-label: 0.8125rem;
+  --text-body-s: 0.875rem;
+  --text-body-m: 1rem;
+  --text-body-l: 1.125rem;
+  --text-h4: 1.25rem;
+  --text-h3: 1.75rem;
+  --text-h2: 2.5rem;
+  --text-h1: 3.5rem;
+  --text-display: 4rem;
+
+  /* ---- Primitives: radius ---- */
+  --radius-xs: 6px;
+  --radius-sm: 8px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 28px;
+
+  /* ---- Primitives: elevation (soft, wide, low opacity) ---- */
+  --shadow-sm: 0 1px 2px rgb(11 11 12 / 0.04), 0 2px 8px rgb(11 11 12 / 0.04);
+  --shadow-md: 0 4px 12px rgb(11 11 12 / 0.05), 0 12px 32px rgb(11 11 12 / 0.07);
+  --shadow-lg: 0 8px 24px rgb(11 11 12 / 0.06), 0 24px 56px rgb(11 11 12 / 0.1);
+
+  /* ---- Primitives: motion ---- */
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --duration-slow: 360ms;
+
+  --animate-float: float 6s var(--ease-out-soft) infinite alternate;
+
+  @keyframes float {
+    from {
+      transform: translateY(0);
+    }
+    to {
+      transform: translateY(-8px);
+    }
+  }
+}
+
+/* ---- Semantic tokens ---- */
+:root {
+  --bg-canvas: var(--color-gray-300);
+  --bg-frame: var(--color-paper);
+  --bg-surface: var(--color-gray-50);
+  --bg-elevated: var(--color-paper);
+
+  --text-primary: var(--color-ink);
+  --text-muted: var(--color-gray-600);
+  --text-inverse: var(--color-paper);
+
+  --border-subtle: var(--color-gray-200);
+
+  --action-primary: var(--color-blue-500);
+  --action-primary-hover: var(--color-blue-600);
+  --action-primary-active: var(--color-blue-700);
+  --action-dark: var(--color-ink);
+  --action-dark-hover: var(--color-gray-900);
+
+  --accent-pink: var(--color-pink-500);
+  --accent-yellow: var(--color-yellow-500);
+  --accent-blue: var(--color-blue-500);
+
+  --focus-ring: var(--color-blue-500);
+}
+
+:root[data-theme='dark'] {
+  --bg-canvas: #050506;
+  --bg-frame: #111113;
+  --bg-surface: #18181b;
+  --bg-elevated: #1f1f23;
+
+  --text-primary: #f4f4f5;
+  --text-muted: #a1a1aa;
+  --text-inverse: var(--color-ink);
+
+  --border-subtle: #2a2a30;
+
+  --action-dark: #f4f4f5;
+  --action-dark-hover: #ffffff;
+
+  --focus-ring: var(--color-blue-300);
+}
